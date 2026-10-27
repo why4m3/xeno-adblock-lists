@@ -1,0 +1,34 @@
+{
+  "_comment": "Источники и состав тегов для xeno-ads.dat. format: wildcard = домен на строку (домен и все поддомены), abp = AdGuard/ABP, берутся только правила вида ||domain^ без модификаторов, hosts = 0.0.0.0 domain (точное совпадение), geosite-plain = плоский экспорт domain-list-community (domain:/full:/regexp:/keyword:). min_entries защищает от обрезанной загрузки: если источник меньше, сборка падает и старый релиз остаётся в силе.",
+  "sources": {
+    "hagezi-pro": {
+      "url": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/pro-onlydomains.txt",
+      "format": "wildcard",
+      "min_entries": 150000
+    },
+    "hagezi-pro-plus": {
+      "url": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/pro.plus-onlydomains.txt",
+      "format": "wildcard",
+      "min_entries": 160000
+    },
+    "v2fly-ads": {
+      "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/release/category-ads-all.txt",
+      "format": "geosite-plain",
+      "min_entries": 600
+    },
+    "ruadlist": {
+      "url": "https://raw.githubusercontent.com/easylist/ruadlist/master/advblock/adservers.txt",
+      "format": "abp",
+      "min_entries": 800
+    },
+    "adguard-dns": {
+      "url": "https://raw.githubusercontent.com/AdguardTeam/AdGuardSDNSFilter/gh-pages/Filters/filter.txt",
+      "format": "abp",
+      "min_entries": 100000
+    }
+  },
+  "tags": {
+    "ads": ["hagezi-pro", "v2fly-ads", "ruadlist"],
+    "ads-strict": ["hagezi-pro-plus", "v2fly-ads", "ruadlist"]
+  }
+}

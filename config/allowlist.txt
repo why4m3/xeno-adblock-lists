@@ -1,0 +1,92 @@
+# Белый список: эти домены вычитаются из всех тегов при сборке.
+#   domain:example.com  - сам домен и все поддомены
+#   full:www.example.com - только этот хост
+# Если в списке блокировки стоит родитель разрешённого хоста (например
+# domain:adjust.com при разрешённом full:app.adjust.com), родитель удаляется
+# целиком: Xray не умеет исключения внутри одного правила, а ложное
+# срабатывание для платного VPN хуже, чем пропущенный трекер.
+# Каждая строка с причиной. Добавлять только после реальной жалобы или проверки.
+
+# Яндекс: редирект ссылок в Яндекс Почте и поиске (clck.yandex.ru/redir/...).
+# Есть в v2fly category-ads-all, без него не открываются ссылки из писем.
+domain:clck.yandex.ru
+domain:clck.yandex.com
+
+# Mail.ru: редирект ссылок на портале и в рассылках (r.mail.ru/...). Есть в v2fly.
+full:r.mail.ru
+
+# Google: клик по рекламному результату поиска и Google Shopping идёт через
+# www.googleadservices.com/pagead/aclk. Блок ломает переход по ссылке.
+# Есть в v2fly, AdGuard DNS и в нынешнем Loyalsoldier, в HaGeZi Pro его нет.
+full:www.googleadservices.com
+
+# Диплинки из SMS, писем и рекламы банков и маркетплейсов (Adjust, AppsFlyer, Branch).
+# HaGeZi Pro их не блокирует, v2fly и Pro++ блокируют.
+full:app.adjust.com
+domain:adj.st
+domain:go.link
+domain:onelink.me
+domain:app.link
+
+# Кабинеты рекламодателей и селлеров: рекламу зрителям они не показывают,
+# а клиенты, которые сами дают рекламу или торгуют на маркетплейсах, без них
+# не могут работать. HaGeZi и v2fly их блокируют.
+full:ads.vk.com
+full:ads.vk.ru
+full:target.my.com
+domain:direct.yandex.ru
+domain:direct.yandex.com
+full:seller.ozon.ru
+# Ozon: v2fly пометил @ads в апреле 2026 (коммит a70e9d1, по passive DNS), что на
+# хосте на самом деле, не выяснено. Для платного VPN ложное срабатывание хуже
+# пропущенного трекера, поэтому не режем, пока не станет ясно (24.10.2026).
+full:xapi.ozon.ru
+domain:seller.wildberries.ru
+domain:cmp.wildberries.ru
+domain:advert-api.wildberries.ru
+domain:advert-api.wb.ru
+domain:advert-media-api.wb.ru
+domain:advert-media-api.wildberries.ru
+
+# Ниже: проверка 25.10.2026 по топ-30k Tranco и 456 нужным хостам. Всё это
+# режет только HaGeZi Pro, а клиенту видно как поломка, а не как пропавшая реклама.
+
+# Push-уведомления и сообщения внутри приложений: через эти сервисы приложения
+# регистрируют устройство, без них уведомления не приходят.
+domain:onesignal.com
+domain:braze.com
+domain:fra-01.braze.eu
+domain:appboy.com
+domain:appboycdn.com
+domain:batch.com
+domain:clevertap-prod.com
+domain:wzrkt.com
+domain:gravitec.net
+# Mindbox: пуши, личный кабинет и бонусы приложений российских магазинов.
+domain:directcrm.ru
+domain:api.mindbox.ru
+domain:s.mindbox.ru
+
+# Онлайн-чат поддержки JivoSite на сайтах магазинов и сервисов.
+domain:jivosite.com
+
+# Антифрод при входе и оплате (FingerprintJS, SEON, PerimeterX/HUMAN): без
+# них банки и магазины отвечают капчей по кругу или отказом.
+domain:fpjs.io
+domain:fpcdn.io
+domain:openfpcdn.io
+domain:seon.io
+domain:deviceinf.com
+domain:protechts.net
+
+# Branch: приложения разбирают через api.branch.io диплинки с app.link (он выше).
+domain:branch.io
+
+# Обычные сайты: Яндекс Игры вне РФ, погода, Looker (BI Google).
+domain:playhop.com
+domain:gismeteo.kz
+domain:looker.com
+
+# Технические адреса сайтов у Timeweb и Beget, на них живут небольшие сайты.
+domain:tw1.ru
+domain:beget.tech

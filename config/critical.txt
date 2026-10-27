@@ -1,0 +1,133 @@
+# Хосты, которые не должны блокироваться никогда. Если любой тег их задевает,
+# сборка падает, и на серверах остаётся предыдущий релиз. Это не белый список
+# (он ничего не вычитает), а тест: при срабатывании разобраться и либо добавить
+# исключение в allowlist.txt, либо убрать отсюда, если блок осознанный.
+
+# Банки и платежи
+online.sberbank.ru
+sberbank.ru
+id.sber.ru
+tbank.ru
+id.tbank.ru
+tinkoff.ru
+securepay.tinkoff.ru
+cdn-tinkoff.ru
+vtb.ru
+online.vtb.ru
+alfabank.ru
+raiffeisen.ru
+gazprombank.ru
+qr.nspk.ru
+sub.nspk.ru
+yoomoney.ru
+static.yoomoney.ru
+yookassa.ru
+checkout.yookassa.ru
+cloudpayments.ru
+widget.cloudpayments.ru
+pay.mts.ru
+
+# Госсервисы
+gosuslugi.ru
+esia.gosuslugi.ru
+lk.gosuslugi.ru
+gu-st.ru
+nalog.gov.ru
+lkfl2.nalog.ru
+mos.ru
+login.mos.ru
+emias.info
+
+# Маркетплейсы и сервисы
+ozon.ru
+www.ozon.ru
+ir.ozone.ru
+wildberries.ru
+www.wildberries.ru
+static-basket-01.wbbasket.ru
+avito.ru
+avito.st
+market.yandex.ru
+megamarket.ru
+aliexpress.ru
+lamoda.ru
+kaspi.kz
+
+# Яндекс, VK, Mail.ru
+yandex.ru
+ya.ru
+passport.yandex.ru
+sso.passport.yandex.ru
+yastatic.net
+avatars.mds.yandex.net
+strm.yandex.ru
+music.yandex.ru
+kinopoisk.ru
+eda.yandex.ru
+taxi.yandex.ru
+clck.yandex.ru
+vk.com
+vk.ru
+id.vk.com
+login.vk.com
+api.vk.com
+sun9-1.userapi.com
+vkvideo.ru
+vkuser.net
+mycdn.me
+ok.ru
+mail.ru
+e.mail.ru
+r.mail.ru
+imgsmail.ru
+
+# Telegram
+telegram.org
+t.me
+web.telegram.org
+telesco.pe
+cdn1.telesco.pe
+
+# YouTube и Google
+youtube.com
+www.youtube.com
+m.youtube.com
+youtubei.googleapis.com
+s.youtube.com
+rr1---sn-4g5e6nzz.googlevideo.com
+i.ytimg.com
+yt3.ggpht.com
+www.youtube-nocookie.com
+accounts.google.com
+play.googleapis.com
+firebaseinstallations.googleapis.com
+firebaseremoteconfig.googleapis.com
+fcm.googleapis.com
+connectivitycheck.gstatic.com
+www.googleadservices.com
+
+# Системное
+captive.apple.com
+www.msftconnecttest.com
+login.microsoftonline.com
+api.github.com
+
+# Ссылки и диплинки
+app.adjust.com
+onelink.me
+app.link
+t.co
+bit.ly
+api.branch.io
+
+# Push, чаты поддержки, антифрод (белый список от 25.10.2026)
+api.onesignal.com
+sdk.iad-01.braze.com
+sdk.fra-01.braze.eu
+ws.batch.com
+eu1.clevertap-prod.com
+api.mindbox.ru
+code.jivosite.com
+api.fpjs.io
+cdn.seon.io
+playhop.com

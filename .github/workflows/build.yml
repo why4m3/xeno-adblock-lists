@@ -1,0 +1,88 @@
+name: build xeno-ads.dat
+
+on:
+  schedule:
+    # HaGeZi публикует сборку на GitHub раз в сутки в 11:00 UTC, берём после неё
+    - cron: "17 12 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "config/**"
+      - "scripts/**"
+      - ".github/workflows/build.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build
+  cancel-in-progress: false
+
+env:
+  # Версия Xray для проверки файла: держать не новее той, что стоит на серверах
+  XRAY_VERSION: v26.2.6
+  KEEP_RELEASES: 14
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.25.x"
+          cache: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build
+        run: OUT="$RUNNER_TEMP/build" scripts/build.sh
+
+      - name: Test with real Xray
+        run: |
+          curl -fsSL -o "$RUNNER_TEMP/xray.zip" \
+            "https://github.com/XTLS/Xray-core/releases/download/${XRAY_VERSION}/Xray-linux-64.zip"
+          unzip -q -o "$RUNNER_TEMP/xray.zip" xray -d "$RUNNER_TEMP/xray"
+          scripts/xray_smoke.sh "$RUNNER_TEMP/build/publish" "$RUNNER_TEMP/xray/xray"
+
+      - name: Compare with published build
+        id: cmp
+        run: |
+          new="$(cut -d' ' -f1 "$RUNNER_TEMP/build/publish/xeno-ads.dat.sha256sum")"
+          old="$(git ls-remote --exit-code origin refs/heads/release >/dev/null 2>&1 \
+                 && git fetch -q --depth 1 origin release \
+                 && git show FETCH_HEAD:xeno-ads.dat.sha256sum | cut -d' ' -f1 || true)"
+          echo "new=$new old=$old"
+          if [ "$new" = "$old" ]; then echo "changed=false" >> "$GITHUB_OUTPUT"; else echo "changed=true" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Push to release branch
+        if: steps.cmp.outputs.changed == 'true'
+        run: |
+          cd "$RUNNER_TEMP/build/publish"
+          git init -q
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -q -b release
+          git add .
+          git commit -q -m "Build $(date -u +%Y%m%d%H%M)"
+          git push -q -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}" release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create release
+        if: steps.cmp.outputs.changed == 'true'
+        run: |
+          tag="$(date -u +%Y%m%d%H%M)"
+          cd "$RUNNER_TEMP/build/publish"
+          gh release create "$tag" --repo "$GITHUB_REPOSITORY" --title "$tag" --notes-file stats.md \
+            xeno-ads.dat xeno-ads.dat.sha256sum ads.txt ads-strict.txt stats.json
+          gh release list --repo "$GITHUB_REPOSITORY" --limit 200 --json tagName --jq '.[].tagName' \
+            | tail -n +$((KEEP_RELEASES + 1)) \
+            | xargs -r -I{} gh release delete {} --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
