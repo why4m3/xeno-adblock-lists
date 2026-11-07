@@ -1,0 +1,44 @@
+{
+  "sources": {
+    "hagezi-pro": {
+      "url": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/pro-onlydomains.txt",
+      "entries": 211469,
+      "skipped": 0
+    },
+    "hagezi-pro-plus": {
+      "url": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/pro.plus-onlydomains.txt",
+      "entries": 232765,
+      "skipped": 0
+    },
+    "ruadlist": {
+      "url": "https://raw.githubusercontent.com/easylist/ruadlist/master/advblock/adservers.txt",
+      "entries": 1504,
+      "skipped": 6269
+    },
+    "v2fly-ads": {
+      "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/release/category-ads-all.txt",
+      "entries": 909,
+      "skipped": 0
+    }
+  },
+  "tags": {
+    "ads": {
+      "sources": [
+        "hagezi-pro",
+        "v2fly-ads",
+        "ruadlist"
+      ],
+      "entries": 213023,
+      "allowlist_removed": 62
+    },
+    "ads-strict": {
+      "sources": [
+        "hagezi-pro-plus",
+        "v2fly-ads",
+        "ruadlist"
+      ],
+      "entries": 234259,
+      "allowlist_removed": 69
+    }
+  }
+}
